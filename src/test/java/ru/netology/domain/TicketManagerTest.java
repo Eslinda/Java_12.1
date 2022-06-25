@@ -17,7 +17,11 @@ public class TicketManagerTest {
     Ticket ticket8 = new Ticket(94, 6800, "LED", "UFA", 155);
     Ticket ticket9 = new Ticket(38, 5400, "LED", "DME", 72);
     Ticket ticket10 = new Ticket(112, 5700, "LED", "UFA", 155);
+    Ticket ticket11 = new Ticket(33, 6820, "LED", "ARH", 80);
     TicketManager manager = new TicketManager(repo);
+
+
+    TicketByPriceAscComparator ticketByPriceAscComparator = new TicketByPriceAscComparator();
 
 
     @Test
@@ -53,6 +57,43 @@ public class TicketManagerTest {
         manager.add(ticket10);
         Ticket[] actual = manager.findAll("LED", "UFA");
         Ticket[] expected = {ticket4, ticket10, ticket8, ticket1, ticket6};
+
+        assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldFindAndSortPriceAndTime() {
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+        manager.add(ticket8);
+        manager.add(ticket9);
+        manager.add(ticket10);
+        manager.add(ticket11);
+        Ticket[] actual = manager.findAllTime("LED", "ARH", ticketByPriceAscComparator);
+        Ticket[] expected = {ticket11, ticket5, ticket2};
+
+        assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldFindAndSortPriceAndTimeNull() {
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+        manager.add(ticket8);
+        manager.add(ticket9);
+        manager.add(ticket10);
+        Ticket[] actual = manager.findAllTime("KGD", "UFA", ticketByPriceAscComparator);
+        Ticket[] expected = {};
 
         assertArrayEquals(actual, expected);
     }
